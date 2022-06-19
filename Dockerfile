@@ -6,6 +6,9 @@ LABEL maintainer="Cong TO <congto@hocchudong.com>"
 ENV PACKER_VERSION=1.8.0
 ENV PACKER_SHA256SUM=f323fc29525a7d94b9b008cd533a0687b01e0882417a2f838785df7c77350030
 
+ENV TIME_ZONE Asia/Ho_Chi_Minh
+RUN ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
+
 RUN apt-get update && \
     apt-get install -y git curl bash wget openssl unzip coreutils
 
@@ -18,7 +21,7 @@ RUN unzip packer_${PACKER_VERSION}_linux_amd64.zip -d /bin
 RUN rm -f packer_${PACKER_VERSION}_linux_amd64.zip
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    apt-get install -y gnupg2 python3-pip sshpass git openssh-client vim net-tools && \
+    apt-get install -y gnupg2 python3-pip sshpass git openssh-client vim net-tools iproute2 && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
 
